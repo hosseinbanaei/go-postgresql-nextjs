@@ -1,2 +1,4 @@
 video-course.*
 */tmp
+*env*
+!*env.example
