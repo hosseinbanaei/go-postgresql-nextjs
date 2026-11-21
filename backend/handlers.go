@@ -32,6 +32,6 @@ func previewHandler(w http.ResponseWriter, r *http.Request) {
 
 	err = json.NewEncoder(w).Encode(input)
 	if err != nil {
-		log.Print("send preview response: %v", err)
+		log.Printf("send preview response: %v", err)
 	}
 }
