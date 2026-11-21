@@ -16,7 +16,7 @@ func openDB(url string) (*sql.DB, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 
-	if db.PingContext(ctx); err != nil {
+	if err := db.PingContext(ctx); err != nil {
 		db.Close()
 		return nil, fmt.Errorf("connect to database: %w", err)
 	}
