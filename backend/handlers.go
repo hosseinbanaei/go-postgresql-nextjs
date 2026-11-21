@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -29,5 +30,8 @@ func previewHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(input)
+	err = json.NewEncoder(w).Encode(input)
+	if err != nil {
+		log.Print("send preview response: %v", err)
+	}
 }
