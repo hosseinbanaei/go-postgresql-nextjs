@@ -1,3 +1,6 @@
+fmt:
+	cd backend && go fmt ./...
+
 tidy:
 	cd backend && go mod tidy
 
