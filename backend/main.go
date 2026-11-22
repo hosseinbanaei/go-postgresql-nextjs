@@ -2,13 +2,13 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"time"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
+	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -19,6 +19,10 @@ func main() {
 }
 
 func run() error {
+	if err := godotenv.Load(); err != nil {
+		return err
+	}
+
 	url := os.Getenv("DATABASE_URL")
 	if url == "" {
 		return errors.New("DATABASE_URL is required")
@@ -33,10 +37,7 @@ func run() error {
 
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "API IS RUNNING")
-	})
-
+	mux.HandleFunc("GET /health", healthHandler(db))
 	mux.HandleFunc("POST /api/preview", previewHandler)
 
 	server := &http.Server{
