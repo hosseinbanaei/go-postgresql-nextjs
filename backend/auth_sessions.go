@@ -32,7 +32,7 @@ func createSession(ctx context.Context, db *sql.DB, userID int64) (string, time.
 	expiresAt := time.Now().Add(sessionLifeTime)
 
 	_, err = db.ExecContext(ctx, `
-		INSERT INTO session (token_hash, user_id, expires_at)
+		INSERT INTO sessions (token_hash, user_id, expires_at)
 		VALUES ($1, $2, $3)
 	`, hashSessionToken(token), userID, expiresAt)
 	if err != nil {

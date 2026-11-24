@@ -41,7 +41,7 @@ func loginHandler(db *sql.DB) http.HandlerFunc {
 		err = db.QueryRowContext(ctx, `
 			SELECT id, name, email, password_hash
 			FROM users WHERE email = $1
-		`, email).Scan(&user.ID, &user.Email, &storedHash)
+		`, email).Scan(&user.ID, &user.Name, &user.Email, &storedHash)
 
 		if errors.Is(err, sql.ErrNoRows) {
 			authError(w, http.StatusUnauthorized, "invalid email or password")
