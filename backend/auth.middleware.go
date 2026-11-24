@@ -6,6 +6,7 @@ import (
 	"errors"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -44,5 +45,29 @@ func requireAuth(db *sql.DB, next authenticatedHandler) http.HandlerFunc {
 		}
 
 		next(w, r, user)
+	}
+}
+
+func meHandler(w http.ResponseWriter, _ *http.Request, user User) {
+	authJSON(w, http.StatusOK, user)
+}
+
+func trustedBrowserRequest(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		origin := r.Header.Get("Origin")
+		frontend := os.Getenv("FRONTEND_ORIGIN")
+		apiOrigin := "http://localhost:8080"
+
+		if origin != "" {
+			if origin != apiOrigin && (frontend == "" || origin != frontend) {
+				authError(w, http.StatusForbidden, "origin is not allowed")
+				return
+			}
+		} else if r.Header.Get("Sec-Fetch-Site") == "cross-site" {
+			authError(w, http.StatusForbidden, "cross-site request is not allowed")
+			return
+		}
+
+		next(w, r)
 	}
 }

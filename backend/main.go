@@ -41,6 +41,7 @@ func run() error {
 	mux.HandleFunc("POST /api/preview", previewHandler)
 	mux.HandleFunc("POST /api/auth/register", registerHandler(db))
 	mux.HandleFunc("POST /api/auth/login", loginHandler(db))
+	mux.HandleFunc("POST /api/auth/me", requireAuth(db, meHandler))
 
 	server := &http.Server{
 		Addr:              "localhost:8080",
