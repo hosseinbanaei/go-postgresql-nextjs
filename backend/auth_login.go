@@ -47,7 +47,6 @@ func loginHandler(db *sql.DB) http.HandlerFunc {
 			authError(w, http.StatusUnauthorized, "invalid email or password")
 			return
 		}
-
 		if err != nil {
 			log.Printf("find login user: %v", err)
 			authError(w, http.StatusUnauthorized, "could not log in")

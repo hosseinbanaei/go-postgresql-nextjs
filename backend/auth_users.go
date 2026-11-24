@@ -14,11 +14,11 @@ type User struct {
 
 func cleanEmail(value string) (string, error) {
 	email := strings.ToLower(strings.TrimSpace(value))
+
 	address, err := mail.ParseAddress(email)
 	if err != nil {
 		return "", errors.New("enter a valid email address")
 	}
-
 	if address.Address != email {
 		return "", errors.New("enter a valid email address")
 	}

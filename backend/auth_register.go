@@ -36,7 +36,6 @@ func registerHandler(db *sql.DB) http.HandlerFunc {
 		if err != nil {
 			authError(w, http.StatusBadRequest, err.Error())
 		}
-
 		if len(input.Password) < 8 || len(input.Password) > 72 {
 			authError(w, http.StatusBadRequest, "password must be 8 to 72 bytes")
 			return

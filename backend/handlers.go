@@ -22,7 +22,6 @@ func previewHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "title is required", http.StatusBadRequest)
 		return
 	}
-
 	if err != nil {
 		http.Error(w, "Invalid JSON", http.StatusBadRequest)
 		return
