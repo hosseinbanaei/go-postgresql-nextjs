@@ -40,6 +40,7 @@ func run() error {
 	mux.HandleFunc("GET /health", healthHandler(db))
 	mux.HandleFunc("POST /api/preview", previewHandler)
 	mux.HandleFunc("POST /api/auth/register", registerHandler(db))
+	mux.HandleFunc("POST /api/auth/login", loginHandler(db))
 
 	server := &http.Server{
 		Addr:              "localhost:8080",
