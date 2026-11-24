@@ -28,7 +28,7 @@ func requireAuth(db *sql.DB, next authenticatedHandler) http.HandlerFunc {
 		err = db.QueryRowContext(ctx, `
 			SELECT users.id, users.name, users.email
 			FROM sessions
-			JOIN users ON user.id = session.user_id
+			JOIN users ON user.id = sessions.user_id
 			WHERE sessions.token_hash = $1
 			AND sessions.expires_at > NOW()
 		`, hashSessionToken(cookie.Value)).Scan(&user.ID, &user.Name, &user.Email)
